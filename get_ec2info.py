@@ -1,13 +1,15 @@
 import sqlite3
-import subprocess
 import boto3
 
 conn = sqlite3.connect('aws.sqlite3')
 cur = conn.cursor()
 
-print('creating database table')
-cur.execute('DROP TABLE IF EXISTS Servers')
-cur.execute('CREATE TABLE Servers (instance_id VARCHAR(32), private_ip_address VARCHAR(16), name VARCHAR(128))');
+print('initializing database')
+
+with open('ec2info.sql', 'r') as f:
+    sql = f.read()
+    for stmt in sql.split(';'): # sqlite only allowed executing one statement at a time
+        cur.execute(stmt)
 
 print('fetching server info')
 
