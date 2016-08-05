@@ -1,1 +1,3 @@
 /aws.sqlite3
+__pycache__/
+.idea/
